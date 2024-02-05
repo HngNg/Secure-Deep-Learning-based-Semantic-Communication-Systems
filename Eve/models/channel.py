@@ -134,7 +134,8 @@ class OFDM(nn.Module):
         noise_pwr = pwr*10**(-SNR/10)
 
         # Generate random noise
-        noise = torch.sqrt(noise_pwr/2) * (torch.randn_like(y) + 1j*torch.randn_like(y))
+        noise_factor = 100
+        noise = torch.sqrt(noise_pwr/2) * (np.random.exponential(y) + 1j*np.random.exponential(y)) * noise_factor
         y_noisy = y + noise
         
         # NxPx((S+S')(M+K))  =>  NxPx(S+S')x(M+K)
@@ -181,7 +182,8 @@ class PLAIN(nn.Module):
         noise_pwr = pwr*10**(-SNR/10)
         
         # Generate random noise
-        noise = torch.sqrt(noise_pwr/2) * (torch.randn_like(y) + 1j*torch.randn_like(y))
+        noise_factor = 100
+        noise = torch.sqrt(noise_pwr/2) * (np.random.exponential(y) + 1j*np.random.exponential(y)) * noise_factor
         y_noisy = y + noise                                    # NxPx(M+L-1)
         rx = y_noisy[:, :, :M, :]
         return rx 
