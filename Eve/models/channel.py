@@ -135,7 +135,10 @@ class OFDM(nn.Module):
 
         # Generate random noise
         noise_factor = 100
-        noise = torch.sqrt(noise_pwr/2) * (np.random.exponential(y) + 1j*np.random.exponential(y)) * noise_factor
+        lambda_value = 1.0
+        uniform_random = (torch.randn_like(y) + 1j*torch.randn_like(y))
+        exponential_noise = -1.0 / lambda_value * torch.log(1 - uniform_random)
+        noise = torch.sqrt(noise_pwr / 2) * exponential_noise * noise_factor
         y_noisy = y + noise
         
         # NxPx((S+S')(M+K))  =>  NxPx(S+S')x(M+K)
