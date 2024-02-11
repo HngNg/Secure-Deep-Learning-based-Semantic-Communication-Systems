@@ -110,5 +110,5 @@ for i, data in enumerate(dataset):
 
 print('PSNR: '+str(np.mean(PSNR_list)))
 print('SSIM: '+str(np.mean(SSIM_list)))
-print('MSE CE: '+str(np.mean(H_err_list)))
-print('MSE EQ: '+str(np.mean(x_err_list)))
+# print('MSE CE: '+str(np.mean(H_err_list)))
+# print('MSE EQ: '+str(np.mean(x_err_list)))
