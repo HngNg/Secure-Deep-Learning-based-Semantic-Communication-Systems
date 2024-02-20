@@ -2,6 +2,7 @@
 # Licensed under the CC BY-NC-SA 4.0 license (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
 import time
 from models import create_model
+from data import create_dataset
 from options.test_options import TestOptions
 from data.data_loader import CreateDataLoader
 import util.util as util
