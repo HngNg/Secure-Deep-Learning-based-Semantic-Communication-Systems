@@ -58,7 +58,7 @@ elif opt.dataset_mode == 'CelebA':
     # dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
     dataset_size = len(dataset)
     print('#training images = %d' % dataset_size)
-    
+
 # elif opt.dataset_mode == 'CelebA':
 #     opt.dataroot = './data/celeba/CelebA_train'
 #     opt.load_size = 80
@@ -96,7 +96,8 @@ for epoch in range(opt.epoch_count, opt.n_epochs + opt.n_epochs_decay + 1):    #
         if opt.dataset_mode == 'CIFAR10':
             input = data[0]
         elif opt.dataset_mode == 'CelebA':
-            input = data['data']
+            input = data[0]
+            # input = data['data']
 
         model.set_input(input)         # unpack data from dataset and apply preprocessing
         model.optimize_parameters()   # calculate loss functions, get gradients, update network weights
