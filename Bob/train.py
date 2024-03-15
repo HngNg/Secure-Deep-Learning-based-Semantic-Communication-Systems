@@ -11,7 +11,10 @@ import os
 import numpy as np
 import torch
 import torchvision
+import torchvision.datasets as datasets
 import torchvision.transforms as transforms
+from torchvision.datasets import ImageFolder
+from torch.utils.data import DataLoader
 import scipy.io as sio
 
 
@@ -40,9 +43,31 @@ elif opt.dataset_mode == 'CelebA':
     opt.load_size = 80
     opt.crop_size = 64
     opt.size = 64
-    dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
+    # implementation of 
+    transform = transforms.Compose(
+        [transforms.CenterCrop((140, 140)),
+        transforms.Resize((64, 64)),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+    trainset = ImageFolder(root="./data/celeba/CelebA_train", transform=transform)
+    dataset = DataLoader(trainset, batch_size=opt.batch_size, shuffle=True, num_workers=2, drop_last=True)
+
+    # trainset = datasets.CelebA(root="./data", download=True, transform=transform)
+    # dataset = torch.utils.data.DataLoader(trainset, batch_size=opt.batch_size,
+    #                                          shuffle=True, num_workers=2, drop_last=True)
+    # dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
     dataset_size = len(dataset)
     print('#training images = %d' % dataset_size)
+    
+# elif opt.dataset_mode == 'CelebA':
+#     opt.dataroot = './data/celeba/CelebA_train'
+#     opt.load_size = 80
+#     opt.crop_size = 64
+#     opt.size = 64
+#     dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
+#     dataset_size = len(dataset)
+#     print('#training images = %d' % dataset_size)
+
 else:
     raise Exception('Not implemented yet')
 
