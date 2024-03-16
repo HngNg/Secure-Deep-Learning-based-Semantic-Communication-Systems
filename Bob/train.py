@@ -44,18 +44,18 @@ elif opt.dataset_mode == 'CelebA':
     opt.crop_size = 64
     opt.size = 64
     # implementation of 
-    transform = transforms.Compose(
-        [transforms.CenterCrop((140, 140)),
-        transforms.Resize((64, 64)),
-        transforms.ToTensor(),
-        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
-    trainset = ImageFolder(root="./data/celeba/CelebA_train", transform=transform)
-    dataset = DataLoader(trainset, batch_size=opt.batch_size, shuffle=True, num_workers=2, drop_last=True)
+    # transform = transforms.Compose(
+    #     [transforms.CenterCrop((140, 140)),
+    #     transforms.Resize((64, 64)),
+    #     transforms.ToTensor(),
+    #     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+    # trainset = ImageFolder(root="./data/celeba/CelebA_train", transform=transform)
+    # dataset = DataLoader(trainset, batch_size=opt.batch_size, shuffle=True, num_workers=2, drop_last=True)
 
     # trainset = datasets.CelebA(root="./data", download=True, transform=transform)
     # dataset = torch.utils.data.DataLoader(trainset, batch_size=opt.batch_size,
     #                                          shuffle=True, num_workers=2, drop_last=True)
-    # dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
+    dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
     dataset_size = len(dataset)
     print('#training images = %d' % dataset_size)
 
