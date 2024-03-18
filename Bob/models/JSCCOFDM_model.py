@@ -110,8 +110,8 @@ class JSCCOFDMModel(BaseModel):
             cof = None
             latent = self.netE(self.real_A)
                 
-        print("Latent size: ") 
-        print(latent.size())
+        # print("Latent size: ") 
+        # print(latent.size())
         self.tx = latent.contiguous().view(N, self.opt.P, self.opt.S, 2, self.opt.M).contiguous().permute(0,1,2,4,3)
         self.tx_c = torch.view_as_complex(self.tx.contiguous())
         self.tx_c = normalize(self.tx_c, 1)
