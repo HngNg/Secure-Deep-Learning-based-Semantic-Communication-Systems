@@ -52,9 +52,9 @@ elif opt.dataset_mode == 'CelebA':
     trainset = ImageFolder(root="./data/celeba/CelebA_train", transform=transform)
     dataset = DataLoader(trainset, batch_size=opt.batch_size, shuffle=True, num_workers=2, drop_last=True)
 
-    trainset = datasets.CelebA(root="./data", download=True, transform=transform)
-    dataset = torch.utils.data.DataLoader(trainset, batch_size=opt.batch_size,
-                                             shuffle=True, num_workers=2, drop_last=True)
+    # trainset = datasets.CelebA(root="./data", download=True, transform=transform)
+    # dataset = torch.utils.data.DataLoader(trainset, batch_size=opt.batch_size,
+    #                                          shuffle=True, num_workers=2, drop_last=True)
     # dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
     dataset_size = len(dataset)
     print('#training images = %d' % dataset_size)
