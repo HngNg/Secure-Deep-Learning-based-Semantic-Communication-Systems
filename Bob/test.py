@@ -12,6 +12,8 @@ import numpy as np
 import torch
 import torchvision
 import torchvision.transforms as transforms
+from torchvision.datasets import ImageFolder
+from torch.utils.data import DataLoader
 import scipy.io as sio
 import models.channel as chan
 import shutil
@@ -39,11 +41,21 @@ if opt.dataset_mode == 'CIFAR10':
 
 elif opt.dataset_mode == 'CelebA':
     opt.dataroot = './data/celeba/CelebA_test'
-    opt.load_size = 80
-    opt.crop_size = 64
-    opt.size = 64
-    dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
+    opt.size = 32
+    transform = transforms.Compose(
+        [transforms.ToTensor(),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+    testset = ImageFolder(root="./data/celeba/CelebA_test", transform=transform)
+    dataset = DataLoader(testset, batch_size=opt.batch_size, shuffle=True, num_workers=2, drop_last=True)
+
     dataset_size = len(dataset)
+
+    # opt.load_size = 80
+    # opt.crop_size = 64
+    # opt.size = 64
+    # dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
+    # dataset_size = len(dataset)
+
     print('#training images = %d' % dataset_size)
 else:
     raise Exception('Not implemented yet')
@@ -72,7 +84,8 @@ for i, data in enumerate(dataset):
     if opt.dataset_mode == 'CIFAR10':
         input = data[0]
     elif opt.dataset_mode == 'CelebA':
-        input = data['data']
+        # input = data['data']
+        input = data[0]
 
     model.set_input(input.repeat(opt.how_many_channel,1,1,1)) 
     model.forward()
