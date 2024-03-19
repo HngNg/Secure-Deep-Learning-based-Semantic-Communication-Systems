@@ -41,6 +41,8 @@ if opt.dataset_mode == 'CIFAR10':
 
 elif opt.dataset_mode == 'CelebA':
     opt.dataroot = './data/celeba/CelebA_test'
+    opt.load_size = 80
+    opt.crop_size = 32
     opt.size = 32
     transform = transforms.Compose(
         [transforms.ToTensor(),
