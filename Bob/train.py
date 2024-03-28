@@ -127,4 +127,5 @@ for epoch in range(opt.epoch_count, opt.n_epochs + opt.n_epochs_decay + 1):    #
     print('End of epoch %d / %d \t Time Taken: %d sec' % (epoch, opt.n_epochs + opt.n_epochs_decay, time.time() - epoch_start_time))
     model.update_learning_rate()  
 
-
+# torch.save(model.state_dict(), 'model_weights.pth')
+torch.save(model.state_dict(), ('./models/%(dataset_mode)s_model_%(SNR)d.pkl' % {'dataset_mode': opt.dataset_mode, 'SNR': opt.SNR}))
