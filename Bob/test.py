@@ -11,6 +11,7 @@ import os
 import numpy as np
 import torch
 import torchvision
+import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 from torchvision.datasets import ImageFolder
 from torch.utils.data import DataLoader
@@ -45,10 +46,16 @@ elif opt.dataset_mode == 'CelebA':
     opt.crop_size = 32
     opt.size = 32
     transform = transforms.Compose(
-        [transforms.ToTensor(),
+        [transforms.RandomHorizontalFlip(p=0.5),
+        transforms.RandomCrop(opt.size, padding=5, pad_if_needed=True, fill=0, padding_mode='reflect'),
+        transforms.ToTensor(),
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
-    testset = ImageFolder(root="./data/celeba/CelebA_test", transform=transform)
-    dataset = DataLoader(testset, batch_size=opt.batch_size, shuffle=True, num_workers=2, drop_last=True)
+    # testset = ImageFolder(root="./data/celeba/CelebA_test", transform=transform)
+    # dataset = DataLoader(testset, batch_size=opt.batch_size, shuffle=True, num_workers=2, drop_last=True)
+
+    
+    testset = datasets.CelebA(root="./data/celeba/CelebA_test", download=True, transform=transform)
+    dataset = torch.utils.data.DataLoader(testset, batch_size=opt.batch_size, shuffle=True, num_workers=2, drop_last=True)
 
     dataset_size = len(dataset)
 
