@@ -5,6 +5,10 @@ The approach entails two key components: jamming signal transmission and noise i
 By strategically disrupting the signal that eavesdroppers get, this method not only counters the eavesdropper's attempt but also maintains the communication data for authorized users. 
 Furthermore, a noise factor is used for the intercepted signal, rendering it incomprehensible to unauthorized parties.
 
+The considered system model:
+![alt text]([http://url/to/img.png](https://github.com/HngNg/deep-jscc-with-ofdm/blob/main/Model_Security_SC.jpg))
+
+
 ## Prerequisites
 
 To run this project, you need to have the following libraries installed in your Python 3.8.0 environment:
@@ -33,4 +37,20 @@ To run this project, you need to have the following libraries installed in your 
 !pip install visdom==0.2.4
 !pip install pytorch_msssim
 !pip install gdown
+```
+
+# Training process
+
+All available options are under options folder. 
+
+**One example for training:**
+``` python
+!cd /kaggle/working/deep-jscc-with-ofdm/Bob && python train.py --gpu_ids '0' --feedforward 'EXPLICIT-RES' --N_pilot 2 --n_downsample 2 --C_channel 12 --S 6 --SNR 0 --dataset_mode 'CIFAR10' --n_epochs 200 --n_epochs_decay 200 --lr 1e-3 
+```
+
+# Testing process
+
+**One example for training**
+``` python
+!cd /kaggle/working/deep-jscc-with-ofdm/Bob && python test.py --gpu_ids '0' --feedforward 'EXPLICIT-RES' --N_pilot 2 --n_downsample 2 --C_channel 12 --S 6 --SNR 0 --dataset_mode 'CIFAR10' --output_path './results/' --aspect_ratio 1.0 --phase 'test' --num_test 10000 --how_many_channel 5
 ```
