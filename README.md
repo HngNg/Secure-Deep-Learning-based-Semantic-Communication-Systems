@@ -6,7 +6,7 @@ By strategically disrupting the signal that eavesdroppers get, this method not o
 Furthermore, a noise factor is used for the intercepted signal, rendering it incomprehensible to unauthorized parties.
 
 The considered system model:
-<img title="a title" alt="Alt text" src="deep-jscc-with-ofdm/blob/main/Model_Security_SC.jpg)">
+<img title="a title" alt="Alt text" src="deep-jscc-with-ofdm/Model_Security_SC.jpg)">
 
 
 
