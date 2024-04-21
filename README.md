@@ -42,6 +42,7 @@ To run this project, you need to have the following libraries installed in your 
 
 # Training process
 
+Change the folder between 'Bob' and 'Eve' to train their models
 All available options are under options folder. 
 
 **One example for training:**
@@ -50,6 +51,7 @@ All available options are under options folder.
 ```
 
 # Testing process
+Change the folder between 'Bob' and 'Eve' to test their models
 
 **One example for training**
 ``` python
