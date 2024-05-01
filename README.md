@@ -26,7 +26,7 @@ To run this project, you need to have the following libraries installed in your 
 
 6. **PyTorch Metrics SSIM**
 
-7. **gdown**
+7. **Dominate 2.8.0**
 
 
 ``` python
@@ -37,7 +37,7 @@ To run this project, you need to have the following libraries installed in your 
 !pip install scipy==1.10.1
 !pip install visdom==0.2.4
 !pip install pytorch_msssim
-!pip install gdown
+!pip install dominate==2.8.0
 ```
 
 # Training process
