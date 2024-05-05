@@ -67,7 +67,7 @@ if opt.dataset_mode == 'CIFAR10':
 
 #     print('#training images = %d' % dataset_size)
 elif opt.dataset_mode == 'CelebA':
-    opt.dataroot = './data/celeba/CelebA_test'
+    opt.dataroot = './data/celeba/CelebA_train'
     opt.load_size = 80
     opt.crop_size = 32
     opt.size = 32
@@ -77,7 +77,7 @@ elif opt.dataset_mode == 'CelebA':
         transforms.RandomCrop(opt.size, padding=5, pad_if_needed=True, fill=0, padding_mode='reflect'),
         transforms.ToTensor(),
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
-    trainset = ImageFolder(root="./data/celeba/CelebA_test", transform=transform)
+    trainset = ImageFolder(root="./data/celeba/CelebA_train", transform=transform)
     dataset = DataLoader(trainset, batch_size=opt.batch_size, shuffle=True, num_workers=2, drop_last=True)
 
     dataset_size = len(dataset)
