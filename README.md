@@ -47,7 +47,7 @@ All available options are under options folder.
 
 **One example for training:**
 ``` python
-!cd /kaggle/working/deep-jscc-with-ofdm/Bob && python train.py --gpu_ids '0' --feedforward 'EXPLICIT-RES' --N_pilot 2 --n_downsample 2 --C_channel 12 --S 6 --SNR 0 --dataset_mode 'CIFAR10' --n_epochs 200 --n_epochs_decay 200 --lr 1e-3 
+!cd Bob && python train.py --gpu_ids '0' --feedforward 'EXPLICIT-RES' --N_pilot 2 --n_downsample 2 --C_channel 12 --S 6 --SNR 0 --dataset_mode 'CIFAR10' --n_epochs 200 --n_epochs_decay 200 --lr 1e-3 
 ```
 
 # Testing process
@@ -55,5 +55,5 @@ Change the folder between 'Bob' and 'Eve' to test their models
 
 **One example for training**
 ``` python
-!cd /kaggle/working/deep-jscc-with-ofdm/Bob && python test.py --gpu_ids '0' --feedforward 'EXPLICIT-RES' --N_pilot 2 --n_downsample 2 --C_channel 12 --S 6 --SNR 0 --dataset_mode 'CIFAR10' --output_path './results/' --aspect_ratio 1.0 --phase 'test' --num_test 10000 --how_many_channel 5
+!cd Bob && python test.py --gpu_ids '0' --feedforward 'EXPLICIT-RES' --N_pilot 2 --n_downsample 2 --C_channel 12 --S 6 --SNR 0 --dataset_mode 'CIFAR10' --output_path './results/' --aspect_ratio 1.0 --phase 'test' --num_test 10000 --how_many_channel 5
 ```
