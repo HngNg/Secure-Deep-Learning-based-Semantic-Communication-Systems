@@ -131,7 +131,7 @@ def main():
         model.update_learning_rate()  
 
     # torch.save(model.state_dict(), 'model_weights.pth')
-    torch.save(model.state_dict(), ('./models/%(dataset_mode)s_model_%(SNR)d.pkl' % {'dataset_mode': opt.dataset_mode, 'SNR': opt.SNR}))
+    # torch.save(model.state_dict(), ('./models/%(dataset_mode)s_model_%(SNR)d.pkl' % {'dataset_mode': opt.dataset_mode, 'SNR': opt.SNR}))
 
 
 if __name__ == '__main__':
