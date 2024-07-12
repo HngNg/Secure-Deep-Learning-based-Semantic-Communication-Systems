@@ -16,7 +16,7 @@ class JSCCOFDMModel(BaseModel):
         BaseModel.__init__(self, opt)
         
         # specify the training losses you want to print out. The training/test scripts will call <BaseModel.get_current_losses>
-        self.loss_names = ['G_L2', 'PAPR', 'CE', 'EQ']
+        self.loss_names = ['G_L2', 'PAPR', 'CE', 'EQ', 'D_real', 'D_fake']
         # specify the images you want to save/display. The training/test scripts will call <BaseModel.get_current_visuals>
         self.visual_names = ['real_A', 'fake']
 
