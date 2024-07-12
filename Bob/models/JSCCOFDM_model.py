@@ -185,14 +185,15 @@ class JSCCOFDMModel(BaseModel):
             feat_fake, pred_fake = self.netD(self.fake)
             self.loss_G_GAN = self.criterionGAN(pred_fake, True)
 
-            if self.is_Feat:
-                feat_real, pred_real = self.netD(self.real_B)
-                self.loss_G_Feat = 0
+            # if self.is_Feat:
+            #     feat_real, pred_real = self.netD(self.real_B)
+            #     self.loss_G_Feat = 0
                 
-                for j in range(len(feat_real)):
-                    self.loss_G_Feat += self.criterionFeat(feat_real[j].detach(), feat_fake[j]) * self.opt.lambda_feat
-            else:
-                self.loss_G_Feat = 0     
+            #     for j in range(len(feat_real)):
+            #         self.loss_G_Feat += self.criterionFeat(feat_real[j].detach(), feat_fake[j]) * self.opt.lambda_feat
+            # else:
+            #     self.loss_G_Feat = 0     
+            self.loss_G_Feat = 0     
         else:
             self.loss_G_GAN = 0
             self.loss_G_Feat = 0 
