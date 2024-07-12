@@ -31,7 +31,7 @@ class BaseOptions():
         parser.add_argument('--ngf', type=int, default=64, help='# of gen filters in the last conv layer')
         parser.add_argument('--ndf', type=int, default=64, help='# of discrim filters in the first conv layer')
         parser.add_argument('--max_ngf', type=int, default=256, help='maximal # of gen filters in the last conv layer')
-        parser.add_argument('--gan_mode', type=str, default='none', help='choose from [wgangp | lsgan | vanilla | none]')
+        parser.add_argument('--gan_mode', type=str, default='lsgan', help='choose from [wgangp | lsgan | vanilla | none]')
         parser.add_argument('--label_smooth', type=int, default=1, help='label smoothing factor for lsgan and vanilla gan')
         parser.add_argument('--n_layers_D', type=int, default=3, help='only used if gan_mode != none')
         parser.add_argument('--norm_D', type=str, default='instance', help='instance normalization or batch normalization [instance | batch | none]')
