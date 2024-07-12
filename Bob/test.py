@@ -90,11 +90,11 @@ model = create_model(opt)      # create a model given opt.model and other option
 model.setup(opt)               # regular setup: load and print networks; create schedulers
 model.eval()
 
-# Load the state dictionary from the .pkl file
-state_dict = torch.load('./models/models/CelebA_model_20.pkl')
+# # Load the state dictionary from the .pkl file
+# state_dict = torch.load('./models/models/CelebA_model_20.pkl')
 
-# Load the state dictionary into the model
-model.load_state_dict(state_dict)
+# # Load the state dictionary into the model
+# model.load_state_dict(state_dict)
 
 output_path = './test_output'
 
