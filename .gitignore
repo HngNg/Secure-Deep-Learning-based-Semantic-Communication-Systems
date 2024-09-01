@@ -9,3 +9,10 @@ cifar-10-batches-py
 __pycache__
 checkpoints
 cifar-10-python.tar.gz
+cal_psnr.py
+cal_ssim.py
+visualizer_EQloss.py
+visualizer_psnr
+visualizer_ssim
+visualizer_tool
+visualizer_for_g_and_d.py
