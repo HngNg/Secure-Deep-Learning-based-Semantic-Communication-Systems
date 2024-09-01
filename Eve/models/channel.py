@@ -120,7 +120,7 @@ class OFDM(nn.Module):
             unpadder = padding.PKCS7(128).unpadder()
             decrypted_data = unpadder.update(decrypted_padded_data) + unpadder.finalize()
         except ValueError:
-            print("Invalid padding bytes detected. Returning noise.")
+            # print("Invalid padding bytes detected. Returning noise.")
             return torch.randn(128, 1, 640)
             decrypted_data = decrypted_padded_data
 
