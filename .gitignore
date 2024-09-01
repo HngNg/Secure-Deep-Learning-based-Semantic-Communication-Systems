@@ -12,7 +12,7 @@ cifar-10-python.tar.gz
 cal_psnr.py
 cal_ssim.py
 visualizer_EQloss.py
-visualizer_psnr
-visualizer_ssim
-visualizer_tool
+visualizer_psnr.py
+visualizer_ssim.py
+visualizer_tool.py
 visualizer_for_g_and_d.py
