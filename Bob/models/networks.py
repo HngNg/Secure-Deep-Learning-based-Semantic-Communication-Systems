@@ -125,7 +125,7 @@ def get_scheduler(optimizer, opt):
         return NotImplementedError('learning rate policy [%s] is not implemented', opt.lr_policy)
     return scheduler
 
-
+# Define Encoder
 def define_E(input_nc, ngf, max_ngf, n_downsample, C_channel, n_blocks, norm='instance', init_type='kaiming', init_gain=0.02, gpu_ids=[], first_kernel=7, first_add_C=0):
     """Create a generator
     Parameters:
@@ -147,6 +147,7 @@ def define_E(input_nc, ngf, max_ngf, n_downsample, C_channel, n_blocks, norm='in
     net = Encoder(input_nc=input_nc, ngf=ngf, max_ngf=max_ngf, C_channel=C_channel, n_blocks=n_blocks, n_downsampling=n_downsample, norm_layer=norm_layer, padding_type="reflect", first_kernel=first_kernel, first_add_C=first_add_C)    
     return init_net(net, init_type, init_gain, gpu_ids)
 
+# Define Generator
 def define_G(output_nc, ngf, max_ngf, n_downsample, C_channel, n_blocks, norm="instance", init_type='kaiming', init_gain=0.02, gpu_ids=[], first_kernel=7, activation='sigmoid'):
     net = None
     norm_layer = get_norm_layer(norm_type=norm)

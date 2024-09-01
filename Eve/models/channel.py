@@ -1,10 +1,13 @@
-
 import os
+import numpy as np
 import torch
 import torch.nn as nn
-import numpy as np
 import torch.nn.functional as F
 import math 
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import padding
+from cryptography.exceptions import InvalidSignature
 
 import sys
 sys.path.append('./')
@@ -85,6 +88,57 @@ class OFDM(nn.Module):
         self.pilot = torch.view_as_complex(self.pilot)
         self.pilot = normalize(self.pilot, 1)
         self.pilot_cp = add_cp(torch.fft.ifft(self.pilot), self.opt.K).repeat(opt.P, opt.N_pilot,1)        
+    
+    def encrypt_tensor(self, tensor, iv, key):
+        # Flatten the tensor and convert it to bytes
+        tensor_flat = tensor.view(-1)
+        tensor_bytes = tensor_flat.detach().numpy().tobytes()
+
+        # Pad the byte array to be a multiple of 16 bytes
+        padder = padding.PKCS7(128).padder()
+        padded_data = padder.update(tensor_bytes) + padder.finalize()
+
+        # Create the AES Cipher
+        cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
+
+        # Encrypt the padded data
+        encryptor = cipher.encryptor()
+        encrypted_data = encryptor.update(padded_data) + encryptor.finalize()
+
+        return encrypted_data
+
+    def decrypt_tensor(self, encrypted_data, iv, key, original_shape):
+        # Create the AES Cipher for decryption
+        cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
+
+        # Decrypt the data
+        decryptor = cipher.decryptor()
+        decrypted_padded_data = decryptor.update(encrypted_data) + decryptor.finalize()
+
+        # Remove the padding
+        try:
+            unpadder = padding.PKCS7(128).unpadder()
+            decrypted_data = unpadder.update(decrypted_padded_data) + unpadder.finalize()
+        except ValueError:
+            print("Invalid padding bytes detected. Returning noise.")
+            return torch.randn(128, 1, 640)
+            decrypted_data = decrypted_padded_data
+
+        # Convert the decrypted bytes back to a NumPy array
+        y_noisy_flat = np.frombuffer(decrypted_data, dtype=np.float32)
+
+        # Ensure the buffer size is correct
+        if y_noisy_flat.size > original_shape.numel():
+            # Truncate the array
+            y_noisy_flat = y_noisy_flat[:original_shape.numel()]
+        elif y_noisy_flat.size < original_shape.numel():
+            # Pad the array with zeros
+            y_noisy_flat = np.pad(y_noisy_flat, (0, original_shape.numel() - y_noisy_flat.size), 'constant')
+
+        # Reshape it back to the original shape of the tensor
+        y_noisy = torch.from_numpy(y_noisy_flat).view(original_shape)
+        return y_noisy
+
 
     def forward(self, x, SNR, cof=None, batch_size=None):
         # Input size: NxPxSxM   The information to be transmitted
@@ -128,18 +182,31 @@ class OFDM(nn.Module):
         
         # Pass through the Channel:        NxPx(S+1)(M+K)  =>  NxPx((S+1)(M+K))
         y, H_t = self.channel(x, cof)
-        
+
         # Calculate the power of received signal        
         pwr = torch.mean(y.abs()**2, -1, True)
         noise_pwr = pwr*10**(-SNR/10)
 
         # Generate random noise
-        noise_factor = 100
-        lambda_value = 1.0
-        uniform_random = (torch.randn_like(y) + 1j*torch.randn_like(y))
-        exponential_noise = -1.0 / lambda_value * torch.log(1 - uniform_random)
-        noise = torch.sqrt(noise_pwr / 2) * exponential_noise * noise_factor
+        noise = torch.sqrt(noise_pwr/2) * (torch.randn_like(y) + 1j*torch.randn_like(y))
         y_noisy = y + noise
+        # Get the size of y_noisy
+        y_noisy_size = y_noisy.size()
+        print(f'Size of y_noisy1: {y_noisy_size}')
+        
+        # NEW METHOD
+        # Generate a 16-byte IV for CBC mode
+        iv = os.urandom(16)
+        # Generate a 32-byte AES key (AES-256)
+        key1 = b'w\xb8t<\xd1\x18\xbeg\xe5\xdc\x14\xa0Yb17\xb4\xe0\\\x16\x13\xbd\xder\xdd\xed\x8c\x8a\x91\xd6Yn'
+        # Simulate the process of encrypt and decrypt, but with a wrong key
+        encrypted_y_noisy = self.encrypt_tensor(y_noisy, iv, key1)
+        key2 = b'w\xb7t<\xd1\x18\xbeg\xe5\xdc\x14\xa0Yb17\xb4\xe0\\\x16\x13\xbd\xder\xdd\xed\x8c\x8a\x92\xd6Yn'        
+        decrypted_y_noisy = self.decrypt_tensor(encrypted_y_noisy, iv, key2, y_noisy.shape)
+        y_noisy = decrypted_y_noisy
+        # Get the size of y_noisy
+        y_noisy_size = y_noisy.size()
+        print(f'Size of y_noisy2: {y_noisy_size}')
         
         # NxPx((S+S')(M+K))  =>  NxPx(S+S')x(M+K)
         output = y_noisy.view(N, self.opt.P, Ns+self.opt.N_pilot, self.opt.M+self.opt.K)
@@ -240,10 +307,4 @@ if __name__ == "__main__":
     rx_MMSE = MMSE_equalization(H_t.unsqueeze(0), info_sig, opt.M*noise_pwr)
     err_MMSE = torch.mean((rx_MMSE.squeeze()-input_f.squeeze()).abs()**2)
     print(f'MMSE error :{err_MMSE.data}')
-
-
-
-
-
-
 

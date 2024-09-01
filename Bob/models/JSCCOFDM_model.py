@@ -42,11 +42,13 @@ class JSCCOFDMModel(BaseModel):
             add_C = 0
         
         # define networks (both generator and discriminator)
+        # Encoder
         self.netE = networks.define_E(input_nc=opt.input_nc, ngf=opt.ngf, max_ngf=opt.max_ngf,
                                       n_downsample=opt.n_downsample, C_channel=opt.C_channel, 
                                       n_blocks=opt.n_blocks, norm=opt.norm_EG, init_type=opt.init_type,
                                       init_gain=opt.init_gain, gpu_ids=self.gpu_ids, first_kernel=opt.first_kernel, first_add_C=add_C)
 
+        # Decoder
         self.netG = networks.define_G(output_nc=opt.output_nc, ngf=opt.ngf, max_ngf=opt.max_ngf,
                                       n_downsample=opt.n_downsample, C_channel=C_decode, 
                                       n_blocks=opt.n_blocks, norm=opt.norm_EG, init_type=opt.init_type,

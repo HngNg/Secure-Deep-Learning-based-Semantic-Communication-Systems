@@ -1,3 +1,11 @@
 
 BPG&JPEG&WebP+LDPC+QAM+AWGN&Ray&Rician-Python/
 .DS_Store
+g_d_loss_logs.txt
+/Results
+# data_batch*
+aes_test.py
+cifar-10-batches-py
+__pycache__
+checkpoints
+cifar-10-python.tar.gz
